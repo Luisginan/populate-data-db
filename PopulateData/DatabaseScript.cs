@@ -256,7 +256,7 @@ public class DatabaseScript
         {
             _generatedQueries.Clear();
 
-            using (var writer = new System.IO.StreamWriter(_config.OutputPath))
+            using (var writer = new StreamWriter(_config.OutputPath))
             {
                 writer.WriteLine($"-- Generated INSERT statements");
                 writer.WriteLine($"-- Generated on: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");

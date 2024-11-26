@@ -14,13 +14,30 @@ if (!File.Exists("config.json"))
     return;
 }
 
-config = JsonConvert.DeserializeObject<DatabaseConfig>(File.ReadAllText("config.json"));
+var configJson = File.ReadAllText("config.json");
+config = JsonConvert.DeserializeObject<DatabaseConfig>(configJson);
 if (config == null)
 {
     Console.WriteLine("Config file is empty. Please update the config.json file with the correct values.");
     return;
 }
 
+Console.WriteLine("Config file loaded.");
+//show config except password
+Console.WriteLine($"Host: {config.Host}, Database: {config.Database}, Username: {config.Username}, Schema: {config.Schema}, OutputPath: {config.OutputPath}, QueryOutputPath: {config.QueryOutputPath}, TableNames: {string.Join(", ", config.TableNames)}");
+Console.Write("Start Generate Script? (Y/N): ");
+var key = Console.ReadKey();
+Console.WriteLine();
+if (key.Key != ConsoleKey.Y)
+{
+    Console.WriteLine("Exit");
+    return;
+}
+
 var databaseScript = new DatabaseScript(config);
-databaseScript.GenerateScripts(true);
+databaseScript.GenerateScripts(false);
+Console.WriteLine("Generate Script Completed");
+Console.WriteLine("Press any key to exit");
+Console.ReadKey();
+
 
